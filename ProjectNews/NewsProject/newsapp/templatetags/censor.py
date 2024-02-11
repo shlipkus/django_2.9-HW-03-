@@ -21,6 +21,11 @@ def cenz(some_string):
     for i in range(len(lst)):
         lstr = lst[i].lower()
         for j in cnz_list:
-            if lstr == j:
-                lst[i] = lst[i][0] + '*'*(len(lst[i])-1)
+            if j in lstr:
+                sh = ''
+                l = len(lstr)-1
+                ind = lstr.index(j)
+                for k in range(l):
+                    sh += '*'
+                lst[i] = lstr[ind]+sh
     return ' '.join(lst)
