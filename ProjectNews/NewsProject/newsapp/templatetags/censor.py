@@ -28,4 +28,6 @@ def cenz(some_string):
                 for k in range(l):
                     sh += '*'
                 lst[i] = lstr[ind]+sh
+
+
     return ' '.join(lst)
