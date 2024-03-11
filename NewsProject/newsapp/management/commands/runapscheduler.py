@@ -23,7 +23,7 @@ def my_job():
     lastweek = today - datetime.timedelta(days=7)
     posts = Post.objects.order_by('-time_in').filter(time_in__gte=lastweek)
     subject = f'Еженедельная рассылка;'
-    text = '\n'.join(['{}'.format(p.title) for p in posts])
+    text = '\n'.join(['{}'.format(p.title)+f' Ссылка на пост: http://127.0.0.1:8000{p.get_absolute_url()}' for p in posts])
     for u in users:
         email = u.user.email
         msg = EmailMultiAlternatives(subject, text, None, [email])
@@ -58,7 +58,8 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             my_job,
-            trigger=CronTrigger(minute="00", hour="18", day_of_week="fri"),
+            # trigger=CronTrigger(minute="00", hour="18", day_of_week="fri"),
+            trigger=CronTrigger(second="*/10"),
             id="my_job",  # The `id` assigned to each job MUST be unique
             max_instances=1,
             replace_existing=True,
