@@ -10,14 +10,14 @@ News
 
 
 {% block content %}
-    <h1>Все посты</h1>
-    <h3>Опубликовано постов: {{ news|length }}</h3>
-
+    <h1>All news</h1>
+    <h3>News were published: {{ news|length }}</h3>
+    <p align="left">
     <form action="" method="get">
-       {{ filterset.form.as_p }}
+       {{ filter.form.as_table }}
        <input type="submit" value="Найти" />
     </form>
-
+    </p>
     <hr>
         {% if news %}
             <table>

@@ -1,5 +1,5 @@
 from allauth.account.forms import SignupForm
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 
 
 class CustomSignupForm(SignupForm):

@@ -5,16 +5,16 @@
 {% load custom_tag %}
 
 {% block title %}
-News
+Articles
 {% endblock title %}
 
 
 {% block content %}
-    <h1>Все посты</h1>
-    <h3>Опубликовано постов: {{ news|length }}</h3>
+    <h1>ALl articles</h1>
+    <h3>Articles were published: {{ news|length }}</h3>
 
     <form action="" method="get">
-       {{ filterset.form.as_p }}
+       {{ filter.form.as_p }}
        <input type="submit" value="Найти" />
     </form>
 

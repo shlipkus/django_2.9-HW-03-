@@ -17,15 +17,17 @@ class PostList(ListView):
     context_object_name = 'news'
     paginate_by = 10
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        self.filterset = NewsFilter(self.request.GET, queryset)
-        return self.filterset.qs
+    def get_filter(self):
+        return NewsFilter(self.request.GET, queryset=super().get_queryset())
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['filterset'] = self.filterset
-        return context
+    def get_queryset(self):
+        return self.get_filter().qs
+
+    def get_context_data(self, *args, **kwargs):
+        return {
+            **super().get_context_data(*args, **kwargs),
+            'filter': self.get_filter(),
+        }
 
 
 class NewsList(ListView):
@@ -36,10 +38,16 @@ class NewsList(ListView):
 
     paginate_by = 10
 
+    def get_filter(self):
+        return NewsFilter(self.request.GET, queryset=super().get_queryset())
+
     def get_queryset(self):
-        queryset = super().get_queryset()
-        qs = queryset.filter(postType = 'NW')
-        return qs
+        return self.get_filter().qs.filter(postType = 'NW')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = self.get_filter()
+        return context
 
 
 class ArticleList(ListView):
@@ -50,10 +58,16 @@ class ArticleList(ListView):
 
     paginate_by = 10
 
+    def get_filter(self):
+        return NewsFilter(self.request.GET, queryset=super().get_queryset())
+
     def get_queryset(self):
-        queryset = super().get_queryset()
-        qs = queryset.filter(postType = 'AR')
-        return qs
+        return self.get_filter().qs.filter(postType = 'AR')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = self.get_filter()
+        return context
 
 class PostDetails(DetailView):
     model = Post

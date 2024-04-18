@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 {% load static %}
-{% load cache %}
-{% cache 30 header %}
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -57,7 +55,7 @@
         </nav>
         <div class="container">
            <div class="row">
-               <div class="col-lg-12 text-center">
+               <div class="col-lg-12 text-left">
                    {% block content %}
                    <p><strong><em>Вот такой контент</em></strong></p>
                    <p><span style="text-decoration: underline; color: #ff0000;"><strong>А может вот такой</strong></span></p>
@@ -69,4 +67,3 @@
         </div>
     </body>
 </html>
-{% endcache %}

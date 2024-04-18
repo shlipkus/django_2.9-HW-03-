@@ -14,8 +14,28 @@ News
     <h3>Опубликовано постов: {{ news|length }}</h3>
 
     <form action="" method="get">
-       {{ filterset.form.as_p }}
-       <input type="submit" value="Найти" />
+        <p>
+        <label for="id_title__icontains">Title contains:</label>
+        <input type="text" name="title__icontains" id="id_title__icontains" wfd-id="id0">
+
+        </p>
+        <p>
+        <label for="id_categories">Categories:</label>
+        <select name="categories" id="id_categories" multiple size="4">
+            {% for cat in filter.form.categories %}
+            {{cat}}
+            {% endfor %}
+        </select>
+
+
+        </p>
+
+
+        <p>
+        <label for="id_add_after">Time in is greater than:</label>
+        <input type="datetime-local" name="add_after" id="id_add_after" wfd-id="id1">
+        </p>
+        <input type="submit" value="Найти" />
     </form>
 
     <hr>

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 
+from django.conf.global_settings import DEFAULT_FROM_EMAIL
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -147,12 +149,16 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
+ADMINS = [('admin', 'killedraccoon@gmail.com'), ]
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+
 LOGIN_REDIRECT_URL = "/"
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_FORMS = {"signup": "accounts.form.CustomSignupForm"}
@@ -170,5 +176,104 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(BASE_DIR, 'cache_files'),
+    }
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'style': '{',
+    'formatters': {
+        'deb_format': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+        'warn_format': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s'
+        },
+        'err_format': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s %(exc_info)s'
+        },
+        'f_gen_format': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers': {
+        'console_deb': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'deb_format'
+        },
+        'console_warn': {
+            'level': 'WARNING',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'warn_format'
+        },
+        'console_err': {
+            'level': 'ERROR',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'err_format'
+        },
+        'file_gen_log': {
+            'level': 'INFO',
+            'filters': ['require_debug_false'],
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'f_gen_format'
+        },
+        'file_err_log': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'errors.log',
+            'formatter': 'err_format'
+        },
+        'file_seq_log': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'security.log',
+            'formatter': 'f_gen_format'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'warn_format'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console_deb', 'console_warn', 'console_err', 'file_gen_log'],
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['file_err_log', 'mail_admins'],
+            'propagate': True,
+        },
+        'django.server': {
+            'handlers': ['file_err_log', 'mail_admins'],
+            'propagate': True,
+        },
+        'django.template': {
+            'handlers': ['file_err_log'],
+            'propagate': True,
+        },
+        'django.db.backends': {
+            'handlers': ['file_err_log'],
+            'propagate': True,
+        },
+        'django.security': {
+            'handlers': ['file_seq_log'],
+            'propagate': True,
+        },
     }
 }
