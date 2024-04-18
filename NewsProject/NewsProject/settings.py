@@ -274,6 +274,7 @@ LOGGING = {
         },
         'django.security': {
             'handlers': ['file_seq_log'],
+            'level': 'INFO',
             'propagate': True,
         },
     }
