@@ -258,7 +258,7 @@ LOGGING = {
         },
         'django.request': {
             'handlers': ['file_err_log', 'mail_admins'],
-            'propagate': False,
+            'propagate': True,
         },
         'django.server': {
             'handlers': ['file_err_log', 'mail_admins'],
@@ -266,11 +266,11 @@ LOGGING = {
         },
         'django.template': {
             'handlers': ['file_err_log'],
-            'propagate': False,
+            'propagate': True,
         },
         'django.db.backends': {
             'handlers': ['file_err_log'],
-            'propagate': False,
+            'propagate': True,
         },
         'django.security': {
             'handlers': ['file_seq_log'],
