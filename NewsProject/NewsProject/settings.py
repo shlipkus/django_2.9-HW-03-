@@ -253,11 +253,12 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console_deb', 'console_warn', 'console_err', 'file_gen_log'],
+            'level': 'DEBUG',
             'propagate': True,
         },
         'django.request': {
             'handlers': ['file_err_log', 'mail_admins'],
-            'propagate': True,
+            'propagate': False,
         },
         'django.server': {
             'handlers': ['file_err_log', 'mail_admins'],
@@ -265,11 +266,11 @@ LOGGING = {
         },
         'django.template': {
             'handlers': ['file_err_log'],
-            'propagate': True,
+            'propagate': False,
         },
         'django.db.backends': {
             'handlers': ['file_err_log'],
-            'propagate': True,
+            'propagate': False,
         },
         'django.security': {
             'handlers': ['file_seq_log'],
